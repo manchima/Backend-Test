@@ -77,5 +77,6 @@
                 </tbody>
             </table>
         <div>
+            <button type="button" onclick="window.location='{{url('/')}}'">Back</button>
     </div>
 @endsection
