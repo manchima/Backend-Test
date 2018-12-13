@@ -28,4 +28,9 @@ class LoanMaster extends Model
         $loanMaster->save();
         return $loanMaster;
     }
+
+    public static function getLoanMasterDataById($id){
+        $loanMaster = LoanMaster::where('id', $id)->get();
+        return $loanMaster[0];
+    }
 }

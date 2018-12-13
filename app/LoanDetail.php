@@ -19,4 +19,9 @@ class LoanDetail extends Model
         $this->save();
         return $this->id;
     }
+
+    public static function getLoanDetailDataById($id){
+        $loanDetails = LoanDetail::where('master_id', $id)->get();
+        return $loanDetails;
+    }
 }

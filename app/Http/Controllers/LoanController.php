@@ -25,40 +25,13 @@ class LoanController extends Controller
 
     public function index()
     {
-//        $loanMasters = LoanMaster::query()->orderBy('id', 'desc')->paginate(3);
-        $loanMasters = LoanMaster::selectRaw("format(id, 0) as id, id as hide_id
-                    , concat(format(amount, 2), ' ฿') as amount
-                    , concat(format(term, 0), ' Years') as term
-                    , concat(format(interest_rate, 2), '%') as interest_rate
-                    , created_at
-                ")
-            ->orderBy('hide_id', 'desc')->paginate(15);
+        $loanMasters = LoanMaster::query()->orderBy('id', 'desc')->paginate(10);
         return view('index', compact('loanMasters'));
     }
 
     public function view($id){
-        $loanMaster = LoanMaster::where('id', $id)
-            ->selectRaw("format(id, 0) as id
-                , concat(format(amount, 2), ' ฿') as amount
-                , concat(format(term, 0), ' Years') as term
-                , concat(format(interest_rate, 2), '%') as interest_rate
-                , created_at
-            ")
-            ->get();
-
-
-        $loanDetails = LoanDetail::where('master_id', $id)
-            ->selectRaw("id, master_id, payment_no
-                , format(payment_amount, 2) as payment_amount
-                , format(principal, 2) as principal
-                , format(interest, 2) as interest
-                , format(balance, 2) as balance
-                , created_at, updated_at
-                , concat(DATE_FORMAT(payment_date, '%b'), '-', DATE_FORMAT(payment_date, '%Y')) as payment_date
-                ")
-            ->get();
-
-        $loanMasters = $loanMaster[0];
+        $loanMasters = LoanMaster::getLoanMasterDataById($id);
+        $loanDetails = LoanDetail::getLoanDetailDataById($id);
         return view('createdetail',compact('loanMasters', 'loanDetails'));
     }
 
@@ -74,7 +47,6 @@ class LoanController extends Controller
             $months[$month] = $name[$month];
         }
 
-//        $loanMaster2 = LoanMaster::find($id);
         $loanMaster2 = LoanMaster::where('id',$id)
             ->selectRaw("id, amount, term, interest_rate, remember_token, created_at, updated_at 
 	            , DATE_FORMAT(start_date, '%b') as start_month
@@ -145,25 +117,8 @@ class LoanController extends Controller
             ];
             $loanDetail->saveDetail($detailData);
         }
-            $loanMaster = LoanMaster::where('id', $id)
-                ->selectRaw("format(id, 0) as id
-                    , concat(format(amount, 2), ' ฿') as amount
-                    , concat(format(term, 0), ' Years') as term
-                    , concat(format(interest_rate, 2), '%') as interest_rate
-                    , created_at
-                ")
-                ->get();
-            $loanDetails = LoanDetail::where('master_id', $id)
-                ->selectRaw("id, master_id, payment_no
-                    , format(payment_amount, 2) as payment_amount
-                    , format(principal, 2) as principal
-                    , format(interest, 2) as interest
-                    , format(balance, 2) as balance
-                    , created_at, updated_at
-                    , concat(DATE_FORMAT(payment_date, '%b'), '-', DATE_FORMAT(payment_date, '%Y')) as payment_date
-                    ")
-                ->get();
-            $loanMasters = $loanMaster[0];
+            $loanMasters = LoanMaster::getLoanMasterDataById($id);
+            $loanDetails = LoanDetail::getLoanDetailDataById($id);
         return view('createdetail',compact('loanMasters', 'loanDetails'))->with('success', 'The loan has been created successfully.');
     }
 
@@ -221,25 +176,8 @@ class LoanController extends Controller
             ];
             $loanDetail->saveDetail($detailData);
         }
-        $loanMaster = LoanMaster::where('id', $id)
-            ->selectRaw("format(id, 0) as id
-                    , concat(format(amount, 2), ' ฿') as amount
-                    , concat(format(term, 0), ' Years') as term
-                    , concat(format(interest_rate, 2), '%') as interest_rate
-                    , created_at
-                ")
-            ->get();
-        $loanDetails = LoanDetail::where('master_id', $id)
-            ->selectRaw("id, master_id, payment_no
-                    , format(payment_amount, 2) as payment_amount
-                    , format(principal, 2) as principal
-                    , format(interest, 2) as interest
-                    , format(balance, 2) as balance
-                    , created_at, updated_at
-                    , concat(DATE_FORMAT(payment_date, '%b'), '-', DATE_FORMAT(payment_date, '%Y')) as payment_date
-                    ")
-            ->get();
-        $loanMasters = $loanMaster[0];
+        $loanMasters = LoanMaster::getLoanMasterDataById($id);
+        $loanDetails = LoanDetail::getLoanDetailDataById($id);
         return view('createdetail',compact('loanMasters', 'loanDetails'))->with('success', 'The loan has been updated successfully.');
     }
 

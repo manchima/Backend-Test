@@ -33,10 +33,10 @@
                 <a href="{{url('/create/loan')}}" class="btn btn-primary">Add New Loan</a>
                 @foreach($loanMasters as $loanMaster)
                     <tr>
-                        <td>{{$loanMaster->id}}</td>
-                        <td>{{$loanMaster->amount}}</td>
-                        <td>{{$loanMaster->term}}</td>
-                        <td>{{$loanMaster->interest_rate}}</td>
+                        <td>{{number_format($loanMaster->id, 0)}}</td>
+                        <td>{{number_format($loanMaster->amount, 2)}}฿</td>
+                        <td>{{number_format($loanMaster->term, 0)}} Years</td>
+                        <td>{{number_format($loanMaster->interest_rate, 2)}}%</td>
                         <td>{{$loanMaster->created_at}}</td>
                         <td class="form-inline"><a href="{{action('LoanController@view',$loanMaster->id)}}" class="btn btn-primary">View</a>
                         <a href="{{action('LoanController@edit',$loanMaster->id)}}" class="btn btn-success">Edit</a>

@@ -24,18 +24,18 @@
                 <tbody>
                 <tr>
                     <td width="200">ID:</td>
-                    <td>{{$loanMasters->id}}</td>
+                    <td>{{number_format($loanMasters->id, 0)}}</td>
                 <tr>
                     <td>Loan Amount:</td>
-                    <td>{{$loanMasters->amount}}</td>
+                    <td>{{number_format($loanMasters->amount, 2)}}฿</td>
                 </tr>
                 <tr>
                     <td>Loan Term:</td>
-                    <td>{{$loanMasters->term}}</td>
+                    <td>{{number_format($loanMasters->term, 0)}} Years</td>
                 </tr>
                 <tr>
                     <td>Interest Rate:</td>
-                    <td>{{$loanMasters->interest_rate}}</td>
+                    <td>{{number_format($loanMasters->interest_rate, 2)}}%</td>
                 </tr>
                 <tr>
                     <td>Created at:</td>
@@ -67,11 +67,11 @@
                 @foreach($loanDetails as $loanDetail)
                 <tr>
                     <td>{{$loanDetail->payment_no}}</td>
-                    <td>{{$loanDetail->payment_date}}</td>
-                    <td>{{$loanDetail->payment_amount}}</td>
-                    <td>{{$loanDetail->principal}}</td>
-                    <td>{{$loanDetail->interest}}</td>
-                    <td>{{$loanDetail->balance}}</td>
+                    <td>{{\Carbon\Carbon::parse($loanDetail->payment_date)->format('Y-m')}}</td>
+                    <td>{{number_format($loanDetail->payment_amount, 2)}}</td>
+                    <td>{{number_format($loanDetail->principal, 2)}}</td>
+                    <td>{{number_format($loanDetail->interest, 2)}}</td>
+                    <td>{{number_format($loanDetail->balance, 2)}}</td>
                 </tr>
                 @endforeach
                 </tbody>
